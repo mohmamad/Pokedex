@@ -1,4 +1,5 @@
-import readline from "readline";
+import { ShallowLocations } from "./pokeapi.js";
+import { initState } from "./state.js";
 
 export function cleanInput(input: string): string[] {
   const cleanedText = input.trim().toLowerCase().replace(/\s+/g," ").split(" ").filter(Boolean);
@@ -10,22 +11,36 @@ export function cleanInput(input: string): string[] {
   return cleanedText;
 }
 
-export function startREPL(){
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
+export async function startREPL(){
 
+    const state = initState();
+    const rl = state.rl;
     rl.setPrompt("Pokedex > ");
 
     rl.prompt();
 
-    rl.on("line" , (input: string) => {
+    rl.on("line" ,async (input: string) => {
       const words = cleanInput(input);
-
-      if(words.length === 0) console.log("Your command was: ");
-      else console.log(`Your command was: ${words[0]}`);
-
+      const command = state.commands[words[0]];
+      if(command){
+        try{
+          if(words.length > 1){
+            await command.callback(state, words[1]);
+          }else{
+            await command.callback(state);
+          }  
+        }catch(err){
+          if(err instanceof Error){
+            console.log(err.message);
+          }else{
+            console.log("Unkown error:", err);
+          }
+        }
+        
+      }else{
+        console.log("Unknown command!");
+      }
+      
       rl.prompt();
     })
 
