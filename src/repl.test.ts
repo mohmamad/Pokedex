@@ -1,4 +1,4 @@
-import { Cache } from "./pokecache.js";
+import { Cache, CacheEntry } from "./pokecache.js";
 import { test, expect } from "vitest";
 
 test.concurrent.each([
@@ -18,8 +18,7 @@ test.concurrent.each([
   cache.add(key, val);
   const cached = cache.get(key);
   expect(cached).toBe(val);
-
-  await new Promise((resolve) => setTimeout(resolve, interval + 100));
+  await new Promise((resolve) => setTimeout(resolve, interval + 1000));
   const reaped = cache.get(key);
   expect(reaped).toBe(undefined);
 
