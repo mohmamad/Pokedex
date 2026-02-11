@@ -8,54 +8,52 @@ export class PokeAPI {
 
   async fetchLocations(pageURL?: string): Promise<ShallowLocations> {
     const fullURL = pageURL ?? PokeAPI.baseURL + "/location-area";
-    if(this.pokeCache.get(fullURL)){
-        return await this.pokeCache.get(fullURL); 
+    if (this.pokeCache.get(fullURL)) {
+      return this.pokeCache.get(fullURL);
     }
-
     const result = await fetch(fullURL);
-    const locations = await result.json();
-    this.pokeCache.add(fullURL,locations);
-    if(!result.ok){
-        throw new Error("Response was not ok!");
+    if (!result.ok) {
+      throw new Error("Response was not ok!");
     }
+    const locations = await result.json();
+    this.pokeCache.add(fullURL, locations);
     return locations;
   }
 
   async fetchLocation(locationName: string): Promise<Location> {
     const fullURL = PokeAPI.baseURL + `/location-area/${locationName}`;
-    if(this.pokeCache.get(fullURL)){
-        return await this.pokeCache.get(fullURL); 
+    if (this.pokeCache.get(fullURL)) {
+      return this.pokeCache.get(fullURL);
     }
     const result = await fetch(fullURL);
-    const location = await result.json();
-    this.pokeCache.add(fullURL,location);
-    if(!result.ok){
-        throw new Error("Response was not ok!");
+    if (!result.ok) {
+      throw new Error("Response was not ok!");
     }
+    const location = await result.json();
+    this.pokeCache.add(fullURL, location);
     return await location;
   }
 
-  async fetchPokemon(pokemonName: string): Promise<Pokemon>{
+  async fetchPokemon(pokemonName: string): Promise<Pokemon> {
     const fullURL = PokeAPI.baseURL + `/pokemon/${pokemonName}`;
-    if(this.pokeCache.get(fullURL)){
-        return await this.pokeCache.get(fullURL); 
+    if (this.pokeCache.get(fullURL)) {
+      return this.pokeCache.get(fullURL);
     }
     const result = await fetch(fullURL);
-    const pokemon = await result.json();
-    this.pokeCache.add(fullURL,pokemon);
-    if(!result.ok){
-        throw new Error("Response was not ok!");
+    if (!result.ok) {
+      throw new Error("Response was not ok!");
     }
+    const pokemon = await result.json();
+    this.pokeCache.add(fullURL, pokemon);
     return await pokemon;
   }
 }
 
-
 export type ShallowLocations = {
-    count: number;
-    next?: string;
-    previous?: string;
-    results: {name:string,url:string}[];
+  count: number;
+  next?: string;
+  previous?: string;
+  results: { name: string; url: string }[];
 };
 
 export type Location = {
@@ -63,54 +61,54 @@ export type Location = {
   name: string;
   game_index: number;
   encounter_method_rates: {
-    encounter_method:{
-        name:string;
-        url: string;
+    encounter_method: {
+      name: string;
+      url: string;
     };
-    version_details:{
-        rate: number;
-        version:{
-            name: string;
-            url: string;
-        };
+    version_details: {
+      rate: number;
+      version: {
+        name: string;
+        url: string;
+      };
     };
   };
-  location:{
+  location: {
     name: string;
     url: string;
   };
-  names:{
+  names: {
     name: string;
-    langauge:{
-        name: string;
-        url: string;
+    langauge: {
+      name: string;
+      url: string;
     };
   }[];
-  pokemon_encounters:{
+  pokemon_encounters: {
     pokemon: {
+      name: string;
+      url: string;
+    };
+    version_details: {
+      version: {
         name: string;
         url: string;
-    };
-    version_details:{
-        version:{
-            name: string;
-            url: string;
-        };
-        max_chance: number;
-        encounter_details:{
-            min_level: number;
-            max_level: number;
-            condition_values:{
-                name: string;
-                url: string;
-            }[];
-            chance: number;
-            method: {
-                name: string;
-                url: string;
-            }
+      };
+      max_chance: number;
+      encounter_details: {
+        min_level: number;
+        max_level: number;
+        condition_values: {
+          name: string;
+          url: string;
         }[];
-    }
+        chance: number;
+        method: {
+          name: string;
+          url: string;
+        };
+      }[];
+    };
   }[];
 };
 

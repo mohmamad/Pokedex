@@ -42,9 +42,10 @@ export function getCommands(): Record<string, CLICommand> {
     },
     inspect: {
       name: "inspect",
-      description: "Inspects the status of a cought pokemon",
+      description: "Inspects the status of a caught pokemon",
       callback: commandInspect,
-    },pokedex: {
+    },
+    pokedex: {
       name: "pokedex",
       description: "Shows the names the player cought",
       callback: commandPokedex,
