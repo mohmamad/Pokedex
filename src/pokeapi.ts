@@ -31,7 +31,7 @@ export class PokeAPI {
     }
     const location = await result.json();
     this.pokeCache.add(fullURL, location);
-    return await location;
+    return location;
   }
 
   async fetchPokemon(pokemonName: string): Promise<Pokemon> {
@@ -45,7 +45,7 @@ export class PokeAPI {
     }
     const pokemon = await result.json();
     this.pokeCache.add(fullURL, pokemon);
-    return await pokemon;
+    return pokemon;
   }
 }
 

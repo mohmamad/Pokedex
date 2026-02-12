@@ -1,7 +1,10 @@
 import { CLICommand, State } from "./state.js";
 
 export async function commandMapb(state: State) {
-  if (state.prevLocationsURL === undefined || state.prevLocationsURL === null) {
+  if (
+    state.prevLocationsURL === undefined ||
+    state.prevLocationsURL === undefined
+  ) {
     console.log("you're on the first page");
     return;
   }

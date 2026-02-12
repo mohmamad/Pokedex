@@ -1,4 +1,3 @@
-import { ShallowLocations } from "./pokeapi.js";
 import { initState } from "./state.js";
 
 export function cleanInput(input: string): string[] {
